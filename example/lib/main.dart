@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'dart:async';
 
 import 'package:flutter/services.dart';
-import 'package:atauth_flutter_plugin/atauth_flutter_plugin.dart';
+import 'package:atauth_flutter_plugin/aliyun_number_auth.dart';
 
 //ios
 final sdkInfo = '8I+caDHMUXyzPseTX2SAv60SwqZeQpHGPrYDqioVOH+ADkqs0P5NqrClpanLYRrhnZKF20giKwPXuVNLiQ2IE1/X97ouTHad+W/1QEbbCd01facwqBrvPmPcBKcqNCswuXocohe6lhbBqHD2Ake/YtbqHnSBZK9wzZECUPguOzqqaiTW0UMtSCHwuz3lezfUzpmncOq52UlrKBX9HdJsHdfOHD5+TGo5C0EQ415GShLiOO9eMbX9UeX24x1YEsgRjtUyGuLQjJs=';
