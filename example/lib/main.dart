@@ -93,6 +93,13 @@ class _MyAppState extends State<MyApp> {
             }else if(result3.isUserCanceled){
               print('用户取消');
             }else{
+              print(result3.code);
+              if(result3.isChooseVerificationCode) {
+                //打开验证码登陆
+                print('使用验证码登陆');
+              }else{
+                print('一键登录失败');
+              }
               await AtauthFlutterPlugin.cancelLogin(flag: true);
               if(result3.isChooseVerificationCode) {
                 //打开验证码登陆

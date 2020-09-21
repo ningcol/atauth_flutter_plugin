@@ -3,6 +3,13 @@
 #import <ATAuthSDK/ATAuthSDK.h>
 #import "ATUtils.h"
 
+#define     ATCOLOR(r, g, b)                 [UIColor colorWithRed:(r)/255.0 green:(g)/255.0 blue:(b)/255.0 alpha:1.0]
+
+
+@interface AtauthFlutterPlugin()
+@property(nonatomic, copy) FlutterResult loginResult;
+@end
+
 @implementation AtauthFlutterPlugin
 + (void)registerWithRegistrar:(NSObject<FlutterPluginRegistrar>*)registrar {
   FlutterMethodChannel* channel = [FlutterMethodChannel
@@ -118,10 +125,16 @@
                                                     complete:^(NSDictionary * _Nonnull resultDic) {
       NSString *resultCode = [resultDic objectForKey:@"resultCode"];
       NSString *msg = [resultDic objectForKey:@"msg"];
+      NSString *token = [resultDic objectForKey:@"token"];
       if ([resultCode isEqualToString:PNSCodeSuccess]) {
-          result([self dictToJson:resultDic]);
-      } else {
+          NSDictionary *dict = @{@"msg": msg, @"code": @"1", @"token": token};
+          result([self dictToJson:dict]);
       }
+      self.loginResult = result;
+//      if (self.isClickOthersLogin) {
+//          NSDictionary *dict = @{@"msg": @"点击其它登录", @"code": @"101"};
+//          result([self dictToJson:dict]);
+//      }
 
   }];
 
@@ -211,8 +224,111 @@
 
 
 
+- (TXCustomModel *)buildFullScreenPortraitModel {
+  TXCustomModel *model = [[TXCustomModel alloc] init];
+    
+  model.supportedInterfaceOrientations = UIInterfaceOrientationMaskPortrait;
+  model.navColor = [UIColor whiteColor];
+  model.navBackImage = [UIImage imageNamed:@"icon_login_back"];
+    model.navTitle = [[NSAttributedString alloc] initWithString:@""];
+    
+    CGSize logoSize = CGSizeMake(30, 44);
+    __block CGFloat logoMaxY = 0;
+    __block CGFloat loginMaxY = 0;
+    __block CGFloat btnHeight = 50;
+    __block CGFloat btnMargin = 10;
+    
+    // logo
+    model.logoImage = [UIImage imageNamed:@"icon_login"];
+    model.logoFrameBlock = ^CGRect(CGSize screenSize, CGSize superViewSize, CGRect frame) {
+        CGFloat x = (superViewSize.width - logoSize.width) /2;
+        // 27  44
+        logoMaxY = logoSize.height + frame.origin.y;
+        return CGRectMake(x, frame.origin.y, logoSize.width, logoSize.height);
+    };
+    
+    // 电话号码
+    model.numberFrameBlock = ^CGRect(CGSize screenSize, CGSize superViewSize, CGRect frame) {
+        return CGRectMake(frame.origin.x, logoMaxY + 20, frame.size.width, frame.size.height);
+    };
+    
+    // slogan
+//    model.loginBtnText = [[NSAttributedString alloc] initWithString:@"中国电信提供认证服务"];
+    
+
+    // 登录按钮
+    NSDictionary *attributes = @{
+        // rgb(33, 91, 241)  241 241
+        NSForegroundColorAttributeName : [UIColor whiteColor],
+        NSFontAttributeName : [UIFont systemFontOfSize:17.0]
+    };
+    UIImage *loginImg = [UIImage imageNamed:@"btn_login_normal"];
+    model.loginBtnBgImgs = @[loginImg, loginImg, loginImg];
+    model.loginBtnText = [[NSAttributedString alloc] initWithString:@"立即登录" attributes:attributes];
+    model.loginBtnFrameBlock = ^CGRect(CGSize screenSize, CGSize superViewSize, CGRect frame) {  // 高度默认50
+        CGRect loginFrame = CGRectMake(frame.origin.x, frame.origin.y, frame.size.width, btnHeight);
+        loginMaxY = CGRectGetMaxY(loginFrame);
+        return loginFrame;
+    };
+
+    
+    // 切换到其它方式
+  model.changeBtnIsHidden = YES;
+    
+    
+    // 协议checkBox
+    model.checkBoxIsChecked = YES;
+    model.checkBoxIsHidden = YES;
+    
+    
+    UIColor *globalGray = ATCOLOR(153, 153, 153);
+    // 协议
+    model.privacyPreText = @"为保障您的个人隐私权益，请在登录前仔细阅读";
+    model.privacyOne = @[@"协议122", @"https://www.taobao.com"];
+    model.privacyColors = @[globalGray, ATCOLOR(33, 91, 241)];
+    model.privacyFont = [UIFont systemFontOfSize:13];
+//    model.privacyTwo = @[@"协议2", @"https://www.taobao.com"];
+//    model.privacyThree = @[@"协议3", @"https://www.taobao.com"];
+    model.privacyFrameBlock = ^CGRect(CGSize screenSize, CGSize superViewSize, CGRect frame) {
+        return CGRectMake(frame.origin.x, loginMaxY + btnMargin + btnHeight + 15, frame.size.width, frame.size.height);
+    };
+     
+    // 协议详情页
+    model.privacyNavBackImage = [UIImage imageNamed:@"icon_login_back"];
+
+    // 自定义view
+    UIButton *othersBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    othersBtn.titleLabel.font = [UIFont systemFontOfSize:17];
+    [othersBtn setTitleColor:globalGray forState:UIControlStateNormal];
+    [othersBtn setTitle:@"其它手机号码登录" forState:UIControlStateNormal];
+    [othersBtn setBackgroundImage:[UIImage imageNamed:@"btn_login_others_normal"] forState:UIControlStateNormal];
+    [othersBtn setBackgroundImage:[UIImage imageNamed:@"btn_login_others_normal"] forState:UIControlStateHighlighted];
+    [othersBtn addTarget:self action:@selector(clickOthersBtn) forControlEvents:UIControlEventTouchUpInside];
+    
+
+  model.customViewBlock = ^(UIView * _Nonnull superCustomView) {
+        [superCustomView addSubview:othersBtn];
+  };
+  model.customViewLayoutBlock = ^(CGSize screenSize, CGRect contentViewFrame, CGRect navFrame, CGRect titleBarFrame, CGRect logoFrame, CGRect sloganFrame, CGRect numberFrame, CGRect loginFrame, CGRect changeBtnFrame, CGRect privacyFrame) {
+      othersBtn.frame = CGRectMake(CGRectGetMinX(loginFrame),
+                                   CGRectGetMaxY(loginFrame) + btnMargin,
+                                   CGRectGetWidth(loginFrame),
+                                   btnHeight);
+  };
+    
+
+  return model;
+}
 
 
+- (void)clickOthersBtn {
+    [[self viewControllerWithWindow:nil] dismissViewControllerAnimated:YES completion:^{
+      NSDictionary *dict = @{@"msg": @"点击其它登录", @"code": @"101"};
+      self.loginResult([self dictToJson:dict]);
+    }];
+}
+
+/*
 - (TXCustomModel *)buildFullScreenPortraitModel {
   TXCustomModel *model = [[TXCustomModel alloc] init];
   model.supportedInterfaceOrientations = UIInterfaceOrientationMaskPortrait;
@@ -252,6 +368,7 @@
   };
   return model;
 }
+ */
 
 - (NSString *)dictToJson:(NSDictionary *)dict {
   return [ATUtils dictionary2Json:dict];

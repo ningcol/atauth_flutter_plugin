@@ -1,6 +1,9 @@
 # atauth_flutter_plugin
 
-阿里云号码认证一键登录flutter插件
+阿里云号码认证服务flutter插件（Alibaba Cloud Phone Number Verification Service） \
+https://help.aliyun.com/product/75010.html \
+支持中国三大运营商全网手机号码认证，一点接入，全国全网覆盖。
+
 
 ## Getting Started
 
