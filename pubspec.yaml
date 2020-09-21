@@ -28,8 +28,8 @@ flutter:
   plugin:
     platforms:
       android:
-        package: com.example.atauth_flutter_plugin
-        pluginClass: AtauthFlutterPlugin
+        package: com.fangstar.atauth_flutter_plugin
+        pluginClass: ATAuthFlutterPlugin
       ios:
         pluginClass: AtauthFlutterPlugin
 

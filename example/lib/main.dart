@@ -2,14 +2,9 @@ import 'package:flutter/material.dart';
 import 'dart:async';
 
 import 'package:flutter/services.dart';
-import 'package:atauth_flutter_plugin/atauth_flutter_plugin.dart';
+import 'package:atauth_flutter_plugin/aliyun_number_auth.dart';
 
-//ios
-final sdkInfo = '8I+caDHMUXyzPseTX2SAv60SwqZeQpHGPrYDqioVOH+ADkqs0P5NqrClpanLYRrhnZKF20giKwPXuVNLiQ2IE1/X97ouTHad+W/1QEbbCd01facwqBrvPmPcBKcqNCswuXocohe6lhbBqHD2Ake/YtbqHnSBZK9wzZECUPguOzqqaiTW0UMtSCHwuz3lezfUzpmncOq52UlrKBX9HdJsHdfOHD5+TGo5C0EQ415GShLiOO9eMbX9UeX24x1YEsgRjtUyGuLQjJs=';
-//android
-// final sdkInfo = 'N98rEm/z5aV+jtRDlsbnUWV8Hxy0wi0yPrxsAujJo3UiLs31+9oFJmBLbP8Ks4n9V/cH/SYDbv9aQxqj6PGXKUAkC+0r6gkHOWjOgzA71/USL25rD72VF1qFbl77mwv1ZGfsfZi98vmjbYkq1ISvNxrGZNcma2IiOE7sfQzxwAvwzoHJBsMWh/RphlLdMgOY3kNWxnoFxEIJzzA6mPLQWFBbACtUpVIX1uJcs6jRHdnbL/C0g1I5dSfiC8YibNIIUwZQ5NBxtBovpqdnBgBApJewZXMx8LoT10v9SLxUhgZkkiFgQSCVRpNy2f2gFJiZ';
-
-void main() {
+void main() async {
   runApp(MyApp());
 }
 
@@ -19,7 +14,7 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  String _platformVersion = 'Unknown';
+  String _showData = 'Unknown';
 
   @override
   void initState() {
@@ -30,9 +25,11 @@ class _MyAppState extends State<MyApp> {
   // Platform messages are asynchronous, so we initialize in an async method.
   Future<void> initPlatformState() async {
     String platformVersion;
+    String sdkInfo;
     // Platform messages may fail, so we use a try/catch PlatformException.
     try {
       platformVersion = await AtauthFlutterPlugin.platformVersion;
+      sdkInfo = await rootBundle.loadString('key/sdk.key');
 
       var result = await AtauthFlutterPlugin.initATAuthSDK(sdkInfo: sdkInfo);
       if (result.success) {
@@ -66,7 +63,7 @@ class _MyAppState extends State<MyApp> {
     if (!mounted) return;
 
     setState(() {
-      _platformVersion = platformVersion;
+      _showData = '$platformVersion\n$sdkInfo';
     });
   }
 
@@ -78,7 +75,7 @@ class _MyAppState extends State<MyApp> {
           title: const Text('Plugin example app'),
         ),
         body: Center(
-          child: Text('Running on: $_platformVersion\n'),
+          child: Text('Running on: $_showData\n'),
         ),
         floatingActionButton: FloatingActionButton(
           child: Text('登录'),
