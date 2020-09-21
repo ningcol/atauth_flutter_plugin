@@ -1,3 +1,3 @@
 ## 0.0.1
 
-* TODO: Describe initial release.
+* 支持阿里云一键登录，目前支持ios版本
