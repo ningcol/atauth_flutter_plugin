@@ -1,0 +1,22 @@
+PODS:
+  - atauth_flutter_plugin (0.0.1):
+    - Flutter
+  - Flutter (1.0.0)
+
+DEPENDENCIES:
+  - atauth_flutter_plugin (from `.symlinks/plugins/atauth_flutter_plugin/ios`)
+  - Flutter (from `Flutter`)
+
+EXTERNAL SOURCES:
+  atauth_flutter_plugin:
+    :path: ".symlinks/plugins/atauth_flutter_plugin/ios"
+  Flutter:
+    :path: Flutter
+
+SPEC CHECKSUMS:
+  atauth_flutter_plugin: 1e79e9cfaf0a1f01e7eaca8565476f80c2b9bb65
+  Flutter: 0e3d915762c693b495b44d77113d4970485de6ec
+
+PODFILE CHECKSUM: 8e679eca47255a8ca8067c4c67aab20e64cb974d
+
+COCOAPODS: 1.8.4
