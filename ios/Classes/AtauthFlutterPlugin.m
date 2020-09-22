@@ -79,8 +79,9 @@
   NSString *skdInfo = [call.arguments objectForKey:@"authSDKInfo"];
   [[TXCommonHandler sharedInstance] setAuthSDKInfo:skdInfo
                                           complete:^(NSDictionary * _Nonnull resultDic) {
-      NSLog(@"设置秘钥结果：%@", [self dictToJson:resultDic]);
-      result([self dictToJson:resultDic]);
+      NSString *msg = [resultDic objectForKey:@"msg"];
+      NSDictionary *dict = @{@"msg": msg, @"code": @"1"};
+      result([self dictToJson:dict]);
   }];
 }
 
@@ -98,8 +99,8 @@
 
   [[TXCommonHandler sharedInstance] checkEnvAvailableWithAuthType:authType
                                                          complete:^(NSDictionary * _Nullable resultDic) {
-      NSLog(@"checkATAuthSDK：%@", [self dictToJson:resultDic]);
-      result([self dictToJson:resultDic]);
+      NSDictionary *dict = @{@"msg": @"检查环境成功", @"code": @"1"};
+      result([self dictToJson:dict]);
   }];
 }
 
@@ -109,7 +110,8 @@
   NSTimeInterval time = [[call.arguments objectForKey:@"timeout"] doubleValue];
 
   [[TXCommonHandler sharedInstance] accelerateLoginPageWithTimeout:time complete:^(NSDictionary * _Nonnull resultDic) {
-      result([self dictToJson:resultDic]);
+      NSDictionary *dict = @{@"msg": @"加速一键登录成功", @"code": @"1"};
+      result([self dictToJson:dict]);
   }];
 
 }
@@ -130,11 +132,11 @@
           NSDictionary *dict = @{@"msg": msg, @"code": @"1", @"token": token};
           result([self dictToJson:dict]);
       }
+      else if ([resultCode isEqualToString:PNSCodeLoginControllerClickCancel]) {
+          NSDictionary *dict = @{@"msg": @"点击返回", @"code": @"100"};
+          result([self dictToJson:dict]);
+      }
       self.loginResult = result;
-//      if (self.isClickOthersLogin) {
-//          NSDictionary *dict = @{@"msg": @"点击其它登录", @"code": @"101"};
-//          result([self dictToJson:dict]);
-//      }
 
   }];
 
@@ -143,11 +145,16 @@
 /// 注销授权页，建议用此方法，对于移动卡授权页的消失会清空一些数据
 - (void)cancelLogin:(FlutterMethodCall *)call result:(FlutterResult)result {
   BOOL flag = [[call.arguments objectForKey:@"flag"] boolValue];
-  [[TXCommonHandler sharedInstance] cancelLoginVCAnimated:flag complete:nil];
+    [[TXCommonHandler sharedInstance] cancelLoginVCAnimated:flag complete:^{
+        NSDictionary *dict = @{@"msg": @"注销授权成功", @"code": @"1"};
+        result([self dictToJson:dict]);
+    }];
 }
 
 - (void)hideLoginLoading:(FlutterMethodCall *)call result:(FlutterResult)result {
   [[TXCommonHandler sharedInstance] hideLoginLoading];
+    NSDictionary *dict = @{@"msg": @"手动隐藏动画成功", @"code": @"1"};
+    result([self dictToJson:dict]);
 }
 
 
@@ -258,7 +265,6 @@
 
     // 登录按钮
     NSDictionary *attributes = @{
-        // rgb(33, 91, 241)  241 241
         NSForegroundColorAttributeName : [UIColor whiteColor],
         NSFontAttributeName : [UIFont systemFontOfSize:17.0]
     };
@@ -327,48 +333,6 @@
       self.loginResult([self dictToJson:dict]);
     }];
 }
-
-/*
-- (TXCustomModel *)buildFullScreenPortraitModel {
-  TXCustomModel *model = [[TXCustomModel alloc] init];
-  model.supportedInterfaceOrientations = UIInterfaceOrientationMaskPortrait;
-  model.navColor = [UIColor orangeColor];
-  NSDictionary *attributes = @{
-      NSForegroundColorAttributeName : [UIColor whiteColor],
-      NSFontAttributeName : [UIFont systemFontOfSize:20.0]
-  };
-  model.navTitle = [[NSAttributedString alloc] initWithString:@"一键登录" attributes:attributes];
-  model.navBackImage = [UIImage imageNamed:@"icon_nav_back_light"];
-  model.logoImage = [UIImage imageNamed:@"taobao"];
-  model.changeBtnIsHidden = YES;
-  model.privacyOne = @[@"协议122", @"https://www.taobao.com"];
-
-//    UIButton *button1 = [UIButton buttonWithType:UIButtonTypeSystem];
-//    [button1 setTitle:button1Title forState:UIControlStateNormal];
-//    [button1 addTarget:target1 action:selector1 forControlEvents:UIControlEventTouchUpInside];
-//
-//    UIButton *button2 = [UIButton buttonWithType:UIButtonTypeSystem];
-//    [button2 setTitle:button2Title forState:UIControlStateNormal];
-//    [button2 addTarget:target2 action:selector2 forControlEvents:UIControlEventTouchUpInside];
-
-  model.customViewBlock = ^(UIView * _Nonnull superCustomView) {
-//        [superCustomView addSubview:button1];
-//        [superCustomView addSubview:button2];
-  };
-  model.customViewLayoutBlock = ^(CGSize screenSize, CGRect contentViewFrame, CGRect navFrame, CGRect titleBarFrame, CGRect logoFrame, CGRect sloganFrame, CGRect numberFrame, CGRect loginFrame, CGRect changeBtnFrame, CGRect privacyFrame) {
-//        button1.frame = CGRectMake(CGRectGetMinX(loginFrame),
-//                                   CGRectGetMaxY(loginFrame) + 20,
-//                                   CGRectGetWidth(loginFrame),
-//                                   30);
-//
-//        button2.frame = CGRectMake(CGRectGetMinX(loginFrame),
-//                                   CGRectGetMaxY(button1.frame) + 15,
-//                                   CGRectGetWidth(loginFrame),
-//                                   30);
-  };
-  return model;
-}
- */
 
 - (NSString *)dictToJson:(NSDictionary *)dict {
   return [ATUtils dictionary2Json:dict];

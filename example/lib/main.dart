@@ -57,9 +57,6 @@ class _MyAppState extends State<MyApp> {
       platformVersion = 'Failed to get platform version.';
     }
 
-    // If the widget was removed from the tree while the asynchronous platform
-    // message was in flight, we want to discard the reply rather than calling
-    // setState to update our non-existent appearance.
     if (!mounted) return;
 
     setState(() {
@@ -82,28 +79,20 @@ class _MyAppState extends State<MyApp> {
           onPressed: () async {
             /// 一键登录
             var result3 = await AtauthFlutterPlugin.getLoginToken(timeout: 3.0);
-            print(result3.code);
-            print(result3.msg);
-            print(result3.token);
             if (true == result3.token?.isNotEmpty && result3.success) {
-              await AtauthFlutterPlugin.cancelLogin(flag: true);
-            }else if(result3.isUserCanceled){
+              print(result3.token);
+              AtauthFlutterPlugin.cancelLogin(flag: true);
+            } else if (result3.isUserCanceled){
               print('用户取消');
-            }else{
-              print(result3.code);
-              if(result3.isChooseVerificationCode) {
+            } else {
+              if (result3.isChooseVerificationCode) {
                 //打开验证码登陆
                 print('使用验证码登陆');
-              }else{
+              } else {
                 print('一键登录失败');
               }
+              // 异步操作，有延迟，写在最后
               await AtauthFlutterPlugin.cancelLogin(flag: true);
-              if(result3.isChooseVerificationCode) {
-                //打开验证码登陆
-                print('使用验证码登陆');
-              }else{
-                print('一键登录失败');
-              }
             }
           },
         ),

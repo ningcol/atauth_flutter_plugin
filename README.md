@@ -11,7 +11,7 @@ https://help.aliyun.com/product/75010.html \
 
 |  平台   |  版本   |
 | :-----: | :-----: |
-| Android |    V    |
+| Android | V2.10.1 |
 |   iOS   | V2.10.1 |
 
 ## 功能清单
@@ -21,18 +21,17 @@ https://help.aliyun.com/product/75010.html \
 * 加速弹出一键登录界面
 * 弹出一键登录界面后拿到token
 
-## 集成
+## 使用
 
 ### Flutter
 
-```
-atauth_flutter_plugin: ^[0.0.1]
-```
+1. 申请boundID对应的appKey
+2. 调用initATAuthSDK方法传入申请的appKey
 
  ### Android
 
-SDK限制：需要自定义登录界面
+SDK限制：自定义登录界面需要修改安卓代码
 
 ### IOS
 
-SDK限制：需要自定义登录界面
+SDK限制：自定义登录界面需要修改iOS代码
