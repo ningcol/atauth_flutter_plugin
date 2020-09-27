@@ -4,18 +4,15 @@ import android.content.Context
 import android.util.Log
 import androidx.annotation.NonNull
 import com.alibaba.fastjson.JSON
-import com.fangstar.atauth_flutter_plugin.ext.failCode
-import com.fangstar.atauth_flutter_plugin.ext.failMsg
-import com.fangstar.atauth_flutter_plugin.ext.failRet
-import com.fangstar.atauth_flutter_plugin.ext.successMsg
-import com.fangstar.atauth_flutter_plugin.ext.successRet
+import com.fangstar.atauth_flutter_plugin.ext.*
 import com.mobile.auth.gatewayauth.PhoneNumberAuthHelper
 import com.mobile.auth.gatewayauth.PreLoginResultListener
 import com.mobile.auth.gatewayauth.ResultCode
 import com.mobile.auth.gatewayauth.TokenResultListener
 import com.mobile.auth.gatewayauth.model.TokenRet
 import io.flutter.plugin.common.MethodCall
-import io.flutter.plugin.common.MethodChannel.*
+import io.flutter.plugin.common.MethodChannel.MethodCallHandler
+import io.flutter.plugin.common.MethodChannel.Result
 
 class MethodCallHandlerImpl(private val ctx: Context) : MethodCallHandler {
     
@@ -153,7 +150,8 @@ class MethodCallHandlerImpl(private val ctx: Context) : MethodCallHandler {
                     }
                 }
             })
-            AuthUIConfigImpl.configAuthUI(helper, result)
+            ATAuthFlutterPlugin.getAuthUIConfig()?.configAuthUI(helper, result)
+                    ?: Log.e(TAG, "Please call #setupAuthUIConfig() setup UI!")
             helper.getLoginToken(ctx, timeout)
         })
     }

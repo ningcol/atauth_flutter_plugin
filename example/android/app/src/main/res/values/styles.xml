@@ -15,4 +15,19 @@
     <style name="NormalTheme" parent="@android:style/Theme.Black.NoTitleBar">
         <item name="android:windowBackground">@android:color/white</item>
     </style>
+
+    <style name="auth_activity" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:textStyle">bold</item>
+        <item name="android:windowAnimationStyle">@style/ActivityAnimation</item>
+    </style>
+    
+    <style name="auth_privacy_activity" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:textStyle">bold</item>
+        <item name="android:windowActionBar">@null</item>
+    </style>
+
+    <style name="ActivityAnimation">
+        <item name="android:windowEnterAnimation">@anim/in_activity</item>
+        <item name="android:windowExitAnimation">@anim/out_activity</item>
+    </style>
 </resources>

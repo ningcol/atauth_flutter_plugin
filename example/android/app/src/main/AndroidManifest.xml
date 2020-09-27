@@ -6,7 +6,7 @@
          additional functionality it is fine to subclass or reimplement
          FlutterApplication and put your custom class here. -->
     <application
-        android:name="io.flutter.app.FlutterApplication"
+        android:name=".App"
         android:label="atauth_flutter_plugin_example"
         android:icon="@mipmap/ic_launcher">
         <activity
@@ -43,5 +43,30 @@
         <meta-data
             android:name="flutterEmbedding"
             android:value="2" />
+
+        <!--联通电信授权⻚-->
+        <!--客户在使用全屏模式时不需要使用authsdk_activity_dialog主题，会出现异常动画-->
+        <activity
+            android:name="com.mobile.auth.gatewayauth.LoginAuthActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:exported="false"
+            android:launchMode="singleTop"
+            android:theme="@style/auth_activity" />
+        <!--协议⻚⾯webview-->
+        <activity
+            android:name="com.mobile.auth.gatewayauth.activity.AuthWebVeiwActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:exported="false"
+            android:launchMode="singleTop"
+            android:screenOrientation="behind"
+            android:theme="@style/auth_privacy_activity" />
+        <!--移动授权⻚-->
+        <activity
+            android:name="com.cmic.sso.sdk.activity.LoginAuthActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:exported="false"
+            android:launchMode="singleTop"
+            android:theme="@style/auth_activity" />
+
     </application>
 </manifest>

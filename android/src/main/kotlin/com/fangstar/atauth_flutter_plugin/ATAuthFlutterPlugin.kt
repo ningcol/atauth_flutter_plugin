@@ -5,7 +5,7 @@ import androidx.annotation.NonNull
 import io.flutter.embedding.engine.plugins.FlutterPlugin
 import io.flutter.plugin.common.BinaryMessenger
 import io.flutter.plugin.common.MethodChannel
-import io.flutter.plugin.common.PluginRegistry.*
+import io.flutter.plugin.common.PluginRegistry.Registrar
 
 /** ATAuthFlutterPlugin */
 class ATAuthFlutterPlugin : FlutterPlugin {
@@ -15,9 +15,20 @@ class ATAuthFlutterPlugin : FlutterPlugin {
     
     companion object {
         @JvmStatic
+        private var sAuthUIConfig: IAuthUIConfig? = null
+        
+        @JvmStatic
         fun registerWith(registrar: Registrar) {
             ATAuthFlutterPlugin().setupChannel(registrar.messenger(), registrar.context())
         }
+        
+        @JvmStatic
+        fun setupAuthUIConfig(authUIConfig: IAuthUIConfig) {
+            sAuthUIConfig = authUIConfig
+        }
+        
+        @JvmStatic
+        fun getAuthUIConfig(): IAuthUIConfig? = sAuthUIConfig
     }
     
     override fun onAttachedToEngine(@NonNull flutterPluginBinding: FlutterPlugin.FlutterPluginBinding) {

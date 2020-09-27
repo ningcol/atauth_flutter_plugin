@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FFF"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/btn_other_login"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginStart="45dp"
+        android:layout_marginTop="450dp"
+        android:layout_marginEnd="45dp"
+        android:background="@drawable/login_btn_unable"
+        android:gravity="center"
+        android:text="其他手机号码登录"
+        android:textColor="#999"
+        android:textSize="22dp" />
+    
+</LinearLayout>
