@@ -27,6 +27,7 @@ https://help.aliyun.com/product/75010.html \
 
 1. 申请boundID对应的appKey
 2. 调用initATAuthSDK方法传入申请的appKey
+3. 如果要跑example中的代码，要创建key文件夹，里面创建sdk.key文件，里面写入key
 
  ### Android
 
