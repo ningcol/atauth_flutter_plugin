@@ -30,9 +30,7 @@ https://help.aliyun.com/product/75010.html \
 3. 如果要跑example中的代码，要创建key文件夹，里面创建sdk.key文件，里面写入key
 
  ### Android
-
-SDK限制：自定义登录界面需要修改安卓代码
+AuthUIConfigImpl类里自定义界面
 
 ### IOS
-
-SDK限制：自定义登录界面需要修改iOS代码
+需要修改iOS中修改代码（buildFullScreenPortraitModel方法中定义界面布局），暂未实现flutter修改界面

@@ -31,27 +31,19 @@ class _MyAppState extends State<MyApp> {
       platformVersion = await AtauthFlutterPlugin.platformVersion;
       sdkInfo = await rootBundle.loadString('key/sdk.key');
 
-      var result = await AtauthFlutterPlugin.initATAuthSDK(sdkInfo: sdkInfo);
-      if (result.success) {
-        print('初始化成功');
-      }
+      /// 初始化SDK
+      ResultModel result = await AtauthFlutterPlugin.initATAuthSDK(sdkInfo: sdkInfo);
+      print('initATAuthSDK ${result.msg}');
 
-      var result1 = await AtauthFlutterPlugin.checkSDK(type: PNSAuthType.PNSAuthTypeVerifyToken);
-      if (result1.success) {
-        print('检查当前环境支持 - PNSAuthTypeVerifyToken');
-      }
+      /// 检查环境
+      ResultModel result1 = await AtauthFlutterPlugin.checkSDK(type: PNSAuthType.PNSAuthTypeVerifyToken);
+      print('checkSDK-PNSAuthTypeVerifyToken ${result1.msg}');
+      ResultModel result2 = await AtauthFlutterPlugin.checkSDK(type: PNSAuthType.PNSAuthTypeLoginToken);
+      print('checkSDK-PNSAuthTypeLoginToken ${result2.msg}');
 
-      var result2 = await AtauthFlutterPlugin.checkSDK(type: PNSAuthType.PNSAuthTypeLoginToken);
-      if (result2.success) {
-        print('检查当前环境支持 - PNSAuthTypeLoginToken');
-      }
-
-      var result3 = await AtauthFlutterPlugin.accelerateLoginPage(timeout: 3.0);
-      if (result3.success) {
-        print('加速成功');
-      }
-
-
+      /// 加速一键登录授权页弹起
+      ResultModel result3 = await AtauthFlutterPlugin.accelerateLoginPage(timeout: 3.0);
+      print('accelerateLoginPage ${result3.msg}');
 
     } on PlatformException {
       platformVersion = 'Failed to get platform version.';
@@ -78,7 +70,7 @@ class _MyAppState extends State<MyApp> {
           child: Text('登录'),
           onPressed: () async {
             /// 一键登录
-            var result3 = await AtauthFlutterPlugin.getLoginToken(timeout: 3.0);
+            ResultModel result3 = await AtauthFlutterPlugin.getLoginToken(timeout: 3.0);
             if (true == result3.token?.isNotEmpty && result3.success) {
               print(result3.token);
               AtauthFlutterPlugin.cancelLogin(flag: true);

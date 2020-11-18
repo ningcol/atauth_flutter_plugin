@@ -1,6 +1,6 @@
 name: atauth_flutter_plugin
 description: 阿里云号码认证服务flutter插件 Alibaba Cloud Phone Number Verification Service (https://help.aliyun.com/product/75010.html)
-version: 0.0.3
+version: 0.0.4
 author: ningcol
 homepage: https://github.com/ningcol/atauth_flutter_plugin
 
