@@ -1,8 +1,8 @@
-import 'package:flutter/material.dart';
 import 'dart:async';
 
-import 'package:flutter/services.dart';
 import 'package:atauth_flutter_plugin/aliyun_number_auth.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 void main() async {
   runApp(MyApp());
@@ -16,10 +16,18 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   String _showData = 'Unknown';
 
+  ResultModel _resultModel;
+
   @override
   void initState() {
     super.initState();
     initPlatformState();
+  }
+
+  @override
+  void dispose() {
+    _resultModel = null;
+    super.dispose();
   }
 
   // Platform messages are asynchronous, so we initialize in an async method.
@@ -63,8 +71,31 @@ class _MyAppState extends State<MyApp> {
         appBar: AppBar(
           title: const Text('Plugin example app'),
         ),
-        body: Center(
-          child: Text('Running on: $_showData\n'),
+        body: Builder(
+          builder: (ctx){
+            return Container(
+              padding: EdgeInsets.all(10),
+              child: SingleChildScrollView(
+                child: Column(
+                  children: [
+                    Text('Running on: $_showData\n'),
+                    null == _resultModel
+                        ? Container()
+                        : MaterialButton(
+                      child: Text(_resultModel.token),
+                      onPressed: () {
+                        Scaffold.of(ctx)
+                            .showSnackBar(SnackBar(content: Text('已复制')));
+                        Clipboard.setData(
+                            ClipboardData(text: _resultModel.token));
+                      },
+                    ),
+                    SizedBox(height: 100,),
+                  ],
+                ),
+              ),
+            );
+          },
         ),
         floatingActionButton: FloatingActionButton(
           child: Text('登录'),
@@ -72,9 +103,12 @@ class _MyAppState extends State<MyApp> {
             /// 一键登录
             ResultModel result3 = await AtauthFlutterPlugin.getLoginToken(timeout: 3.0);
             if (true == result3.token?.isNotEmpty && result3.success) {
-              print(result3.token);
               AtauthFlutterPlugin.cancelLogin(flag: true);
-            } else if (result3.isUserCanceled){
+              print('登陆成功');
+              setState(() {
+                _resultModel = result3;
+              });
+            } else if (result3.isUserCanceled) {
               print('用户取消');
             } else {
               if (result3.isChooseVerificationCode) {
