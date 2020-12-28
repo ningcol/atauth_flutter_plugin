@@ -13,3 +13,6 @@
 
 ## 0.0.5
 * 修改iOS上移动卡出现crash【[UAReachability reachableType]: unrecognized selector sent to instance】问题
+
+## 0.0.6
+* 修改一些界面
