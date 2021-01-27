@@ -12,4 +12,11 @@
 * 修改iOS解析错误，仍然返回成功的bug
 
 ## 0.0.5
+* 修改iOS上移动卡出现crash【[UAReachability reachableType]: unrecognized selector sent to instance】问题
+
+## 0.0.6
+* 修改一些界面
+
+## 0.0.7
 * 升级Android依赖库
+

@@ -309,10 +309,10 @@
     UIColor *globalGray = ATCOLOR(153, 153, 153);
     // 协议
     model.privacyPreText = @"为保障您的个人隐私权益，请在登录前仔细阅读";
-    model.privacyOne = @[@"协议122", @"https://www.taobao.com"];
+    model.privacyOne = @[@"房星网隐私政策", @"https://m.fangstar.com/mobile/privacy"];
     model.privacyColors = @[globalGray, ATCOLOR(33, 91, 241)];
     model.privacyFont = [UIFont systemFontOfSize:13];
-//    model.privacyTwo = @[@"协议2", @"https://www.taobao.com"];
+    model.privacyTwo = @[@"房星网用户服务协议", @"https://m.fangstar.com/mobile/privacy"];
 //    model.privacyThree = @[@"协议3", @"https://www.taobao.com"];
     model.privacyFrameBlock = ^CGRect(CGSize screenSize, CGSize superViewSize, CGRect frame) {
         return CGRectMake(frame.origin.x, loginMaxY + btnMargin + btnHeight + 15, frame.size.width, frame.size.height);
