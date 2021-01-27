@@ -1,12 +1,11 @@
 package com.fangstar.atauth_flutter_plugin
 
 import android.util.Log
-import com.alibaba.fastjson.JSON
-import com.alibaba.fastjson.annotation.JSONCreator
 import com.mobile.auth.gatewayauth.model.TokenRet
+import org.json.JSONObject
 
 @Suppress("unused")
-class ResultInfo @JSONCreator constructor(
+class ResultInfo constructor(
     val msg: String? = null,
     val code: String? = null,
     val requestId: String? = null,
@@ -14,9 +13,16 @@ class ResultInfo @JSONCreator constructor(
 ) {
     
     fun toJson(): String {
-        val json = JSON.toJSONString(this)
-        Log.e("ResultInfo", "toJson: $json")
-        return json
+        val jsonObj = JSONObject()
+        jsonObj.put("msg", msg)
+        jsonObj.put("code", code)
+        jsonObj.put("requestId", requestId)
+        jsonObj.put("token", token)
+        val result = jsonObj.toString()
+        if(ATAuthFlutterPlugin.enableLog) {
+            Log.e("ResultInfo", "toJson: $result")
+        }
+        return result
     }
     
     companion object {

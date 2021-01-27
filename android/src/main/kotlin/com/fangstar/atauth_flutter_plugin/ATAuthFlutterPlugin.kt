@@ -12,8 +12,11 @@ class ATAuthFlutterPlugin : FlutterPlugin {
     
     private val CHANNEL_NAME = "atauth_flutter_plugin"
     private var mChannel: MethodChannel? = null
-    
+
     companion object {
+        @JvmStatic
+        var enableLog = false
+
         @JvmStatic
         private var sAuthUIConfig: IAuthUIConfig? = null
         

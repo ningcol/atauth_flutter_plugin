@@ -46,6 +46,8 @@ object AuthUIConfigImpl : IAuthUIConfig {
     @JvmStatic
     private val mAuthUIConfigBuilder: AuthUIConfig.Builder by lazy {
         AuthUIConfig.Builder()
+                //避免Toast内存泄漏
+                .setLogBtnToastHidden(true)
                 //导航栏
                 .setNavColor(Color.TRANSPARENT) //导航栏颜色
                 .setNavReturnImgPath("icon_close") //导航栏返回图标

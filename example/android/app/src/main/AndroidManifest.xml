@@ -7,7 +7,10 @@
          FlutterApplication and put your custom class here. -->
     <application
         android:name=".App"
-        android:label="atauth_flutter_plugin_example"
+        android:label="@string/app_name"
+        android:usesCleartextTraffic="true"
+        android:networkSecurityConfig="@xml/network_security_config"
+        android:requestLegacyExternalStorage="true"
         android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"
@@ -44,8 +47,13 @@
             android:name="flutterEmbedding"
             android:value="2" />
 
+        <!--重点关注！！！！！！！-->
         <!--联通电信授权⻚-->
         <!--客户在使用全屏模式时不需要使用authsdk_activity_dialog主题，会出现异常动画-->
+        <!--如果不需要使用窗口模式，不要使用authsdk_activity_dialog主题，会出现异常动画-->
+        <!--如果需要使用authsdk_activity_dialog主题，则screenOrientation一定不能指定明确的方向，
+        比如portrait、sensorPortrait，在8.0的系统上不允许窗口模式指定orientation，会发生crash，需要指定为behind，
+        然后在授权页的前一个页面指定具体的orientation-->
         <activity
             android:name="com.mobile.auth.gatewayauth.LoginAuthActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"

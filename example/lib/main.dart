@@ -41,17 +41,17 @@ class _MyAppState extends State<MyApp> {
 
       /// 初始化SDK
       ResultModel result = await AtauthFlutterPlugin.initATAuthSDK(sdkInfo: sdkInfo);
-      print('initATAuthSDK ${result.msg}');
+      print('initATAuthSDK ${result.code}');
 
       /// 检查环境
       ResultModel result1 = await AtauthFlutterPlugin.checkSDK(type: PNSAuthType.PNSAuthTypeVerifyToken);
-      print('checkSDK-PNSAuthTypeVerifyToken ${result1.msg}');
+      print('checkSDK-PNSAuthTypeVerifyToken ${result1.code}');
       ResultModel result2 = await AtauthFlutterPlugin.checkSDK(type: PNSAuthType.PNSAuthTypeLoginToken);
-      print('checkSDK-PNSAuthTypeLoginToken ${result2.msg}');
+      print('checkSDK-PNSAuthTypeLoginToken ${result2.code}');
 
       /// 加速一键登录授权页弹起
       ResultModel result3 = await AtauthFlutterPlugin.accelerateLoginPage(timeout: 3.0);
-      print('accelerateLoginPage ${result3.msg}');
+      print('accelerateLoginPage ${result3.code}');
 
     } on PlatformException {
       platformVersion = 'Failed to get platform version.';
