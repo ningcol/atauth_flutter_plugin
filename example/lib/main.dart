@@ -16,7 +16,7 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   String _showData = 'Unknown';
 
-  ResultModel _resultModel;
+  ResultModel? _resultModel;
 
   @override
   void initState() {
@@ -32,8 +32,8 @@ class _MyAppState extends State<MyApp> {
 
   // Platform messages are asynchronous, so we initialize in an async method.
   Future<void> initPlatformState() async {
-    String platformVersion;
-    String sdkInfo;
+    String? platformVersion;
+    late String sdkInfo;
     // Platform messages may fail, so we use a try/catch PlatformException.
     try {
       platformVersion = await AtauthFlutterPlugin.platformVersion;
@@ -82,12 +82,10 @@ class _MyAppState extends State<MyApp> {
                     null == _resultModel
                         ? Container()
                         : MaterialButton(
-                      child: Text(_resultModel.token),
+                      child: Text(_resultModel?.token ?? ""),
                       onPressed: () {
-                        Scaffold.of(ctx)
-                            .showSnackBar(SnackBar(content: Text('已复制')));
-                        Clipboard.setData(
-                            ClipboardData(text: _resultModel.token));
+                        Scaffold.of(ctx).showSnackBar(SnackBar(content: Text('已复制')));
+                        Clipboard.setData(ClipboardData(text: _resultModel?.token));
                       },
                     ),
                     SizedBox(height: 100,),
