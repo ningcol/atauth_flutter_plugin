@@ -46,6 +46,8 @@ object AuthUIConfigImpl : IAuthUIConfig {
     @JvmStatic
     private val mAuthUIConfigBuilder: AuthUIConfig.Builder by lazy {
         AuthUIConfig.Builder()
+                //开启协议页面中JS支持
+                .setWebSupportedJavascript(true)
                 //避免Toast内存泄漏
                 .setLogBtnToastHidden(true)
                 //导航栏
