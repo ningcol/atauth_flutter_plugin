@@ -3,7 +3,6 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'result_model.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 class AtauthFlutterPlugin {
@@ -20,11 +19,11 @@ class AtauthFlutterPlugin {
         bool loggerEnable = false,
         bool uploadLogEnable = false}) async {
     return ResultModel.fromJson(
-        jsonDecode(await (_channel.invokeMethod('initSDK', {
+        jsonDecode(await _channel.invokeMethod('initSDK', {
           'authSDKInfo': sdkInfo,
           "loggerEnable": loggerEnable,
           "uploadLogEnable": uploadLogEnable
-        }) as FutureOr<String>)));
+        })));
   }
 
   /// 检查当前环境是否支持一键登录或号码认证
@@ -32,7 +31,7 @@ class AtauthFlutterPlugin {
     required PNSAuthType type,
   }) async {
     return ResultModel.fromJson(
-        jsonDecode(await (_channel.invokeMethod('checkEnvAvailable', {'type': type.name}) as FutureOr<String>))
+        jsonDecode(await _channel.invokeMethod('checkEnvAvailable', {'type': type.name}))
     );
   }
 
@@ -42,7 +41,7 @@ class AtauthFlutterPlugin {
     required double timeout,
   }) async {
     return ResultModel.fromJson(
-        jsonDecode(await (_channel.invokeMethod('accelerateLoginPage', {'timeout': timeout}) as FutureOr<String>))
+        jsonDecode(await _channel.invokeMethod('accelerateLoginPage', {'timeout': timeout}))
     );
   }
 
@@ -53,7 +52,7 @@ class AtauthFlutterPlugin {
     required double timeout,
   }) async {
     return ResultModel.fromJson(
-        jsonDecode(await (_channel.invokeMethod('getLoginTokenPage', {'timeout': timeout}) as FutureOr<String>))
+        jsonDecode(await _channel.invokeMethod('getLoginTokenPage', {'timeout': timeout}))
     );
   }
 
